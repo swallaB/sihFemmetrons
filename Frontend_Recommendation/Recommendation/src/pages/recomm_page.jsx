@@ -1,4 +1,4 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { Building2, Tag, BookOpen, Target, MapPin, Globe, Star, ChevronRight, TrendingUp, Award, Users, Clock, Heart, Eye, Code, Briefcase, DollarSign, ChevronLeft } from 'lucide-react';
 
 const RecommendationPage = () => {
@@ -307,7 +307,7 @@ const RecommendationPage = () => {
 
             {/* Enhanced Attractive & Simple Internship Cards Grid */}
             <div className="grid grid-cols-1 md:grid-cols-2 lg:grid-cols-3 gap-8">
-              {currentInternships.map((internship, index) => (
+              {currentInternships.map((internship) => (
                 <div
                   key={internship.id}
                   className="group bg-white rounded-3xl border border-slate-200 shadow-lg hover:shadow-2xl hover:shadow-blue-500/10 transition-all duration-300 overflow-hidden transform hover:scale-[1.03] hover:border-blue-300"
