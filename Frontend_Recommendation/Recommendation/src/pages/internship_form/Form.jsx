@@ -6,6 +6,7 @@ import PreferenceStep from './PreferenceStep';
 import CVUploadStep from './CVUploadStep';
 import ProgressBar from './ProgressBar';
 import CompletionModal from './CompletionModal';
+import { useNavigate } from "react-router-dom";
 
 const initialFormData = {
   personalDetails: {
@@ -50,6 +51,7 @@ const steps = [
 ];
 
 function Form() {
+  const navigate = useNavigate();
   const [currentStep, setCurrentStep] = useState(0);
   const [formData, setFormData] = useState(initialFormData);
   const [completedSteps, setCompletedSteps] = useState(new Array(steps.length).fill(false));
@@ -176,6 +178,7 @@ function Form() {
       
       addBadge('form-completed');
       setShowCompletion(true);
+      navigate("/recommendations");
       
       console.log('Form submitted:', submitData);
     } catch (error) {

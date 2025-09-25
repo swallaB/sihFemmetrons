@@ -223,42 +223,6 @@ const RecommendationPage = () => {
       </div>
 
       <div className="relative z-10">
-        {/* Clean Professional Navbar */}
-        <nav className="bg-white/80 backdrop-blur-xl border-b border-slate-200 sticky top-0 z-50">
-          <div className="max-w-7xl mx-auto px-4 sm:px-6 lg:px-8">
-            <div className="flex items-center justify-between h-20">
-              <div className="flex items-center space-x-12">
-                <div className="flex items-center space-x-2">
-                  <div className="w-10 h-10 bg-gradient-to-r from-blue-500 to-blue-700 rounded-xl flex items-center justify-center">
-                    <span className="text-white font-bold text-lg">iM</span>
-                  </div>
-                  <span className="text-2xl font-bold bg-gradient-to-r from-blue-600 to-blue-800 bg-clip-text text-transparent">
-                    internMatch
-                  </span>
-                </div>
-                <nav className="hidden md:flex space-x-8">
-                  <a href="#" className="relative text-blue-600 font-semibold group">
-                    Internships
-                    <span className="absolute -bottom-2 left-0 w-full h-0.5 bg-blue-600 rounded-full"></span>
-                  </a>
-                  <a href="#" className="text-slate-600 hover:text-slate-900 font-medium transition-colors">Jobs</a>
-                  <a href="#" className="text-slate-600 hover:text-slate-900 font-medium transition-colors">Competitions</a>
-                  <a href="#" className="text-slate-600 hover:text-slate-900 font-medium transition-colors">Mentorships</a>
-                  <a href="#" className="text-slate-600 hover:text-slate-900 font-medium transition-colors">Resources</a>
-                </nav>
-              </div>
-              <div className="flex items-center space-x-4">
-                <button className="text-blue-600 hover:text-blue-700 font-medium px-4 py-2 rounded-lg hover:bg-blue-50 transition-all">
-                  For Employers
-                </button>
-                <button className="bg-blue-600 text-white px-6 py-2.5 rounded-xl font-medium hover:bg-blue-700 hover:shadow-md transition-all duration-200">
-                  Sign In
-                </button>
-              </div>
-            </div>
-          </div>
-        </nav>
-
         {/* Recommendations Section - Starting point */}
         <div className="py-20 relative overflow-hidden">
           {/* Professional Background Animation for Recommendations */}
