@@ -4,12 +4,13 @@ import { BrowserRouter as Router, Routes, Route, Navigate } from 'react-router-d
 import LandingPage from './pages/Landing/LandingPage';
 import AuthPage from './pages/AuthPage';
 import Homepage from './pages/Homepage';
-import Profile from './pages/Profile';
+import ProfileInputForm from './pages/ProfileInputForm';
 import Dashboard from './pages/Dashboard';
 import Form from './pages/internship_form/form';
 import RecommPage from './pages/recomm_page';
 import DetailPage from './pages/DetailPage';
 import MainLayout from './MainLayout';
+import Profile from './pages/Profile';
 
 function App() {
   const isLoggedIn = true; 
@@ -41,15 +42,22 @@ function App() {
           } 
         />
         <Route 
-          path="/dashboard" 
+          path="/profileInput" 
           element={
-            isLoggedIn 
-              ? (isProfileComplete 
-                  ? <MainLayout><Dashboard /></MainLayout>
-                  : <Navigate to="/profile" />) 
-              : <Navigate to="/signin" />
+            isLoggedIn ? (
+              <MainLayout><ProfileInputForm /></MainLayout>
+            ) : <Navigate to="/signin" />
           } 
         />
+
+        <Route 
+  path="/dashboard" 
+  element={
+    isLoggedIn 
+      ? <MainLayout><Dashboard /></MainLayout>
+      : <Navigate to="/signin" />
+  } 
+/>
         <Route 
           path="/internship-form" 
           element={

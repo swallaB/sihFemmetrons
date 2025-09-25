@@ -20,10 +20,52 @@ const AuthPage = () => {
     });
   };
 
-  const handleSubmit = (e) => {
-    e.preventDefault();
-    console.log("Form submitted:", formData);
-  };
+ const handleSubmit = async (e) => {
+  e.preventDefault();
+
+  try {
+    const url =
+      activeTab === "signin"
+        ? "http://localhost:5000/api/auth/login"
+        : "http://localhost:5000/api/auth/register";
+
+    // Optional: validate passwords match on signup
+    if (activeTab === "signup" && formData.password !== formData.confirmPassword) {
+      alert("Passwords do not match");
+      return;
+    }
+
+    const res = await fetch(url, {
+      method: "POST",
+      headers: { "Content-Type": "application/json" },
+      body: JSON.stringify({
+        email: formData.email,
+        password: formData.password,
+      }),
+    });
+
+    const data = await res.json();
+
+    if (!res.ok) {
+      alert(data.message || "Something went wrong");
+      return;
+    }
+
+    if (activeTab === "signin") {
+      // Save token to localStorage
+      localStorage.setItem("token", data.token);
+      alert("Login successful!");
+      navigate("/home"); // Redirect after login
+    } else {
+      alert("Registration successful! You can now login.");
+      setActiveTab("signin"); // Switch to login after signup
+      setFormData({ email: "", password: "", confirmPassword: "" });
+    }
+  } catch (err) {
+    console.error(err);
+    alert("Server error. Please try again.");
+  }
+};
 
   return (
     <div className="min-h-screen w-full bg-gradient-to-br from-blue-100 to-white flex items-center justify-center p-4">

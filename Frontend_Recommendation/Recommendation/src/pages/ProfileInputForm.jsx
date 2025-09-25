@@ -1,21 +1,26 @@
-import React, { useState } from 'react';
+import React, { useState, useEffect } from 'react';
 import { User, Calendar, Phone, MapPin, Save, Check } from 'lucide-react';
+import axios from 'axios';
+import { useNavigate } from 'react-router-dom';
 
-const ProfileInputForm = ({ onSave, initialData }) => {
+const ProfileInputForm = ({ initialData, token }) => {
   const [currentStep, setCurrentStep] = useState(1);
   const [errors, setErrors] = useState({});
+  const [loading, setLoading] = useState(false);
   const [profile, setProfile] = useState({
-    firstName: initialData?.firstName || '',
-    lastName: initialData?.lastName || '',
-    dateOfBirth: initialData?.dateOfBirth || '',
-    gender: initialData?.gender || '',
-    phone: initialData?.phone || '',
-    address: initialData?.address || '',
-    city: initialData?.city || '',
-    state: initialData?.state || '',
-    country: initialData?.country || '',
-    pincode: initialData?.pincode || '',
+    firstName: initialData?.firstName || "",
+    lastName: initialData?.lastName || "",
+    dateOfBirth: initialData?.dateOfBirth || "",
+    gender: initialData?.gender || "",
+    phone: initialData?.phone || "",
+    address: initialData?.address || "",
+    city: initialData?.city || "",
+    state: initialData?.state || "",
+    country: initialData?.country || "",
+    pincode: initialData?.pincode || "",
   });
+
+
 
   const validateStep = (step) => {
     const newErrors = {};
@@ -42,9 +47,32 @@ const ProfileInputForm = ({ onSave, initialData }) => {
     }
   };
 
-  const handleSave = () => {
-    if (validateStep(2)) {
-      onSave(profile);
+  const handleSave = async () => {
+    if (!validateStep(2)) return;
+    const token = localStorage.getItem("token");
+    if (!token) throw new Error("User is not logged in");
+
+    try {
+      setLoading(true);
+      const res = await axios.put(
+        "http://localhost:5000/api/users/profile/personal",
+        profile,
+        {
+          headers: {
+            Authorization: `Bearer ${token}`,
+            "Content-Type": "application/json",
+          },
+        }
+      );
+      setProfile(res.data);
+      alert("Profile saved successfully ✅");
+      console.log("Updated Profile:", res.data.profile);
+      navigate("/dashboard");
+    } catch (err) {
+      console.error("Error saving profile:", err.response?.data || err.message);
+      alert(err.response?.data?.message || "Failed to save profile ❌");
+    } finally {
+      setLoading(false);
     }
   };
 
@@ -54,7 +82,6 @@ const ProfileInputForm = ({ onSave, initialData }) => {
       setErrors((prev) => ({ ...prev, [field]: false }));
     }
   };
-
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
       <div className="max-w-2xl mx-auto">

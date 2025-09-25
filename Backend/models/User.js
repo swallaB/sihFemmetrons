@@ -5,7 +5,7 @@ const candidateSchema = new mongoose.Schema({
   firstName: { type: String , required:true},
   lastName: { type: String, required: true},
   dateOfBirth: { type: Date, required: true},
-  gender: { type: String, enum: ["male", "female", "other"], required: true},
+  gender: { type: String, enum: ["Male", "Female", "Other"], required: true},
 
   // Step 2: Contact Details
   phone: { type: String, required:true },

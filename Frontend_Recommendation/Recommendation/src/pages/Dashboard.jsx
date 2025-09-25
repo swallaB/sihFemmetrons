@@ -1,15 +1,54 @@
-import React from 'react';
-import { User, Calendar, Phone, MapPin, Edit3, Briefcase } from 'lucide-react';
 
-const Dashboard = ({ profile, recommendations, onEdit, onUpdateRecommendations }) => {
+
+import React, { useEffect, useState } from 'react';
+import { useNavigate } from 'react-router-dom';
+import { User, Calendar, Phone, MapPin, Edit3, Briefcase } from 'lucide-react';
+import axios from 'axios';
+
+const Dashboard = () => {
+  const navigate = useNavigate();
+  const [profile, setProfile] = useState(null);
+  const [recommendations, setRecommendations] = useState([]);
+  const [loading, setLoading] = useState(true);
+
+  // Fetch profile from backend
+  const fetchProfile = async () => {
+    try {
+      const token = localStorage.getItem('token');
+      if (!token) {
+        navigate('/signin');
+        return;
+      }
+
+      const res = await axios.get('http://localhost:5000/api/users/profile', {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+      const userProfile = res.data;
+
+      // Redirect to profile form if incomplete
+      if (!userProfile.firstName || !userProfile.lastName || !userProfile.dateOfBirth) {
+        navigate('/profile');
+        return;
+      }
+
+      setProfile(userProfile);
+    } catch (err) {
+      console.error(err);
+      alert('Failed to fetch profile. Please login again.');
+      navigate('/signin');
+    } finally {
+      setLoading(false);
+    }
+  };
+
+  useEffect(() => {
+    fetchProfile();
+  }, []);
+
   const formatDate = (dateString) => {
     if (!dateString) return 'Not provided';
     const date = new Date(dateString);
-    return date.toLocaleDateString('en-US', { 
-      year: 'numeric', 
-      month: 'long', 
-      day: 'numeric' 
-    });
+    return date.toLocaleDateString('en-US', { year: 'numeric', month: 'long', day: 'numeric' });
   };
 
   const getGenderEmoji = (gender) => {
@@ -22,10 +61,15 @@ const Dashboard = ({ profile, recommendations, onEdit, onUpdateRecommendations }
   };
 
   const getFullAddress = () => {
+    if (!profile) return 'Not provided';
     const addressParts = [profile.address, profile.city, profile.state, profile.country, profile.pincode]
       .filter(part => part && part.trim());
     return addressParts.join(', ') || 'Not provided';
   };
+    const onEdit = () => navigate('/profileInput');
+    const onUpdateRecommendations=()=> navigate('/internship-form')
+ if (loading) return <p className="text-center mt-20 text-xl">Loading profile...</p>;
+if (!profile) return null;
 
   return (
     <div className="min-h-screen bg-gradient-to-br from-blue-50 to-indigo-100 py-8 px-4">
