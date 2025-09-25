@@ -10,6 +10,19 @@ export const getInternships = async (req, res) => {
     res.status(500).json({ message: err.message });
   }
 };
+export const getInternshipById = async (req, res) => {
+  try {
+    const { id } = req.params; // id = Internship_ID from URL
+    const internship = await Internship.findOne({ Internship_ID: id });
+    if (!internship) {
+      return res.status(404).json({ message: "Internship not found" });
+    }
+    res.json(internship);
+  } catch (err) {
+    console.error(err);
+    res.status(500).json({ message: err.message });
+  }
+};
 
 // Get recommendations (send profile + preferences to Flask API)
 export const getRecommendations = async (req, res) => {
