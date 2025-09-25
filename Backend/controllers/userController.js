@@ -93,8 +93,14 @@
 
 import User from "../models/User.js";
 import multer from "multer";
-
+import fs from "fs";
 // ---- CV Upload (Multer Config) ----
+const uploadDir = "uploads/cv";
+
+if (!fs.existsSync(uploadDir)) {
+  fs.mkdirSync(uploadDir, { recursive: true });
+}
+
 const storage = multer.diskStorage({
   destination: (req, file, cb) => {
     cb(null, "uploads/cv/"); // folder to store CVs
@@ -173,30 +179,89 @@ export const updatePersonalAndContact = async (req, res) => {
 /* ------------------------------
    Update Other Details (Form 2)
    ------------------------------ */
+// export const updateOtherDetails = async (req, res) => {
+//   try {
+//     const user = await User.findById(req.user.id);
+//     if (!user) return res.status(404).json({ message: "User not found" });
+
+//     const { education, skills, languages, sectorOfInterest, experience, preferences } =
+//       req.body;
+
+//     // ✅ Validate all required fields
+//     if (
+//       !education ||
+//       !Array.isArray(education) ||
+//       education.length === 0 ||
+//       !skills ||
+//       !Array.isArray(skills) ||
+//       skills.length === 0 ||
+//       !languages ||
+//       !Array.isArray(languages) ||
+//       languages.length === 0 ||
+//       !sectorOfInterest ||
+//       !Array.isArray(sectorOfInterest) ||
+//       sectorOfInterest.length === 0 ||
+//       !experience ||
+//       !preferences ||
+//       !preferences.duration ||
+//       !preferences.mode ||
+//       !preferences.locationPref
+//     ) {
+//       return res
+//         .status(400)
+//         .json({ message: "All other details are required" });
+//     }
+
+//     if (!req.file) {
+//       return res.status(400).json({ message: "CV upload is required" });
+//     }
+
+//     // ✅ Save all details (overwrite existing other details)
+//     user.candidateProfile = {
+//       ...user.candidateProfile?.toObject(),
+//       education,
+//       skills,
+//       languages,
+//       sectorOfInterest,
+//       experience,
+//       preferences,
+//       cv: {
+//         filename: req.file.filename,
+//         path: req.file.path,
+//         mimetype: req.file.mimetype,
+//         size: req.file.size,
+//       },
+//     };
+
+//     await user.save();
+//     res.json({
+//       message: "Other details updated",
+//       profile: user.candidateProfile,
+//     });
+//   } catch (err) {
+//     res.status(500).json({ message: err.message });
+//   }
+// };
+
 export const updateOtherDetails = async (req, res) => {
   try {
     const user = await User.findById(req.user.id);
     if (!user) return res.status(404).json({ message: "User not found" });
 
-    const { education, skills, languages, sectorOfInterest, experience, preferences } =
-      req.body;
+    // Parse JSON strings from FormData
+    const education = req.body.education ? JSON.parse(req.body.education) : [];
+    const skills = req.body.skills ? JSON.parse(req.body.skills) : [];
+    const languages = req.body.languages ? JSON.parse(req.body.languages) : [];
+    const sectorOfInterest = req.body.sectorOfInterest ? JSON.parse(req.body.sectorOfInterest) : [];
+    const preferences = req.body.preferences ? JSON.parse(req.body.preferences) : {};
+    const experience = req.body.experience || "";
 
     // ✅ Validate all required fields
     if (
-      !education ||
-      !Array.isArray(education) ||
       education.length === 0 ||
-      !skills ||
-      !Array.isArray(skills) ||
       skills.length === 0 ||
-      !languages ||
-      !Array.isArray(languages) ||
       languages.length === 0 ||
-      !sectorOfInterest ||
-      !Array.isArray(sectorOfInterest) ||
       sectorOfInterest.length === 0 ||
-      !experience ||
-      !preferences ||
       !preferences.duration ||
       !preferences.mode ||
       !preferences.locationPref

@@ -7,22 +7,9 @@ import CVUploadStep from './CVUploadStep';
 import ProgressBar from './ProgressBar';
 import CompletionModal from './CompletionModal';
 import { useNavigate } from "react-router-dom";
-
+import axios from "axios";
 const initialFormData = {
-  personalDetails: {
-    firstName: '',
-    lastName: '',
-    dateOfBirth: '',
-    gender: ''
-  },
-  contactDetails: {
-    phone: '',
-    address: '',
-    city: '',
-    state: '',
-    country: '',
-    pincode: ''
-  },
+ 
   education: [{
     degree: '',
     institution: '',
@@ -113,20 +100,39 @@ function Form() {
     }
   };
 
+ 
   const validateStep = (stepIndex) => {
-    switch (stepIndex) {
-      case 0: // Education
-        return formData.education.some(edu => edu.degree && edu.institution);
-      case 1: // Skills & Languages
-        return formData.skills.length > 0 || formData.languages.length > 0;
-      case 2: // Preferences
-        return formData.sectorOfInterest.length > 0 && !!formData.preferences.mode;
-      case 3: // CV Upload
-        return !!formData.cv;
-      default:
-        return false;
-    }
-  };
+  switch (stepIndex) {
+    case 0: // Education
+      return formData.education.every(
+        (edu) =>
+          edu.degree &&
+          edu.institution &&
+          edu.fieldOfStudy &&
+          edu.startDate &&
+          edu.endDate &&
+          edu.grade
+      );
+
+    case 1: // Skills & Languages
+      return formData.skills.length > 0 || formData.languages.length > 0;
+
+    case 2: // Preferences
+      return (
+        formData.sectorOfInterest.length > 0 &&
+        formData.preferences.duration &&
+        formData.preferences.mode &&
+        formData.preferences.location
+      );
+
+    case 3: // CV Upload
+      return !!formData.cv; // File must exist
+
+    default:
+      return false;
+  }
+};
+
 
   const nextStep = () => {
     if (currentStep < steps.length - 1 && validateStep(currentStep)) {
@@ -144,49 +150,73 @@ function Form() {
     }
   };
 
-  const handleSubmit = async () => {
-    if (!validateStep(currentStep)) return;
 
-    setIsSubmitting(true);
-    const newCompleted = [...completedSteps];
-    newCompleted[currentStep] = true;
-    setCompletedSteps(newCompleted);
-    
-    try {
-      const submitData = {
-        email: '',
-        password: '',
-        candidateProfile: {
-          personalDetails: '',
-          contactDetails: '',
-          education: formData.education,
-          skills: formData.skills,
-          languages: formData.languages,
-          sectorOfInterest: formData.sectorOfInterest,
-          experience: formData.experience,
-          preferences: formData.preferences,
-          cv: formData.cv ? formData.cv.name : null
-        }
-      };
+const handleSubmit = async () => {
+  if (!validateStep(currentStep)) return;
 
-      await new Promise(resolve => setTimeout(resolve, 2000));
-      
-      localStorage.removeItem('internship-form-data');
-      localStorage.removeItem('internship-form-step');
-      localStorage.removeItem('internship-form-completed');
-      localStorage.removeItem('internship-form-badges');
-      
-      addBadge('form-completed');
-      setShowCompletion(true);
-      navigate("/recommendations");
-      
-      console.log('Form submitted:', submitData);
-    } catch (error) {
-      console.error('Submission failed:', error);
-    } finally {
-      setIsSubmitting(false);
+  setIsSubmitting(true);
+
+  const newCompleted = [...completedSteps];
+  newCompleted[currentStep] = true;
+  setCompletedSteps(newCompleted);
+
+  try {
+    const formPayload = new FormData();
+
+    // Convert arrays/objects to JSON strings
+    formPayload.append('education', JSON.stringify(formData.education));
+    formPayload.append('skills', JSON.stringify(formData.skills));
+    formPayload.append('languages', JSON.stringify(formData.languages));
+    formPayload.append('sectorOfInterest', JSON.stringify(formData.sectorOfInterest));
+    formPayload.append('experience', formData.experience || '');
+    formPayload.append(
+      'preferences',
+      JSON.stringify({
+        duration: formData.preferences.duration || '',
+        mode: formData.preferences.mode || '',
+        locationPref: formData.preferences.location || ''
+      })
+    );
+
+    // Append CV file
+    if (formData.cv) {
+      formPayload.append('cv', formData.cv);
     }
-  };
+   
+
+    // Make API request
+    const token = localStorage.getItem('token'); // JWT token
+    const response = await axios.put(
+      "http://localhost:5000/api/users/profile/other",
+      formPayload,
+      {
+        headers: {
+          'Content-Type': 'multipart/form-data',
+          Authorization: `Bearer ${token}`,
+        },
+      }
+    );
+
+    console.log('Backend response:', response.data);
+
+    // Clear localStorage on success
+    localStorage.removeItem('internship-form-data');
+    localStorage.removeItem('internship-form-step');
+    localStorage.removeItem('internship-form-completed');
+    localStorage.removeItem('internship-form-badges');
+
+    addBadge('form-completed');
+    setShowCompletion(true);
+    navigate("/recommendations");
+
+  } catch (error) {
+    console.error('Submission failed:', error.response?.data || error.message);
+    alert(error.response?.data?.message || 'Submission failed');
+  } finally {
+    setIsSubmitting(false);
+  }
+};
+
 
   const renderStepContent = () => {
     switch (currentStep) {
