@@ -1,7 +1,7 @@
-import React, { useState, useEffect } from 'react';
+import React, { useState} from 'react';
 import { User, Calendar, Phone, MapPin, Save, Check } from 'lucide-react';
 import axios from 'axios';
-import { useNavigate } from 'react-router-dom';
+
 
 const ProfileInputForm = ({ initialData, token }) => {
   const [currentStep, setCurrentStep] = useState(1);
@@ -67,7 +67,7 @@ const ProfileInputForm = ({ initialData, token }) => {
       setProfile(res.data);
       alert("Profile saved successfully ✅");
       console.log("Updated Profile:", res.data.profile);
-      navigate("/dashboard");
+      
     } catch (err) {
       console.error("Error saving profile:", err.response?.data || err.message);
       alert(err.response?.data?.message || "Failed to save profile ❌");

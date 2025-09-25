@@ -1,7 +1,8 @@
 import React, { useState, useEffect } from 'react';
 import { Search, MapPin, BookOpen, Users, Award, ChevronLeft, ChevronRight, Star, Clock, Building } from 'lucide-react';
-
+import { useTranslation } from "react-i18next";
 const Homepage = () => {
+  const { t, i18n } = useTranslation();
   const [currentSectorIndex, setCurrentSectorIndex] = useState(0);
   const [searchQuery, setSearchQuery] = useState('');
 

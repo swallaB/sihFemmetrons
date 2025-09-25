@@ -1,5 +1,4 @@
 
-
 import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Calendar, Phone, MapPin, Edit3, Briefcase } from 'lucide-react';

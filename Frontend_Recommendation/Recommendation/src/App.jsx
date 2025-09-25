@@ -11,10 +11,11 @@ import RecommPage from './pages/recomm_page';
 import DetailPage from './pages/DetailPage';
 import MainLayout from './MainLayout';
 import Profile from './pages/Profile';
+import RecommCheck from './pages/RecommCheck';
 
 function App() {
   const isLoggedIn = true; 
-  const isProfileComplete = false; 
+  {/*const isProfileComplete = false; */}
 
   return (
     <Router>
@@ -63,6 +64,14 @@ function App() {
           element={
             isLoggedIn ? (
               <MainLayout><Form /></MainLayout>
+            ) : <Navigate to="/signin" />
+          } 
+        />
+        <Route 
+          path="/recomm-check" 
+          element={
+            isLoggedIn ? (
+              <MainLayout><RecommCheck /></MainLayout>
             ) : <Navigate to="/signin" />
           } 
         />

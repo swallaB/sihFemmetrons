@@ -9,20 +9,6 @@ import CompletionModal from './CompletionModal';
 import { useNavigate } from "react-router-dom";
 
 const initialFormData = {
-  personalDetails: {
-    firstName: '',
-    lastName: '',
-    dateOfBirth: '',
-    gender: ''
-  },
-  contactDetails: {
-    phone: '',
-    address: '',
-    city: '',
-    state: '',
-    country: '',
-    pincode: ''
-  },
   education: [{
     degree: '',
     institution: '',
