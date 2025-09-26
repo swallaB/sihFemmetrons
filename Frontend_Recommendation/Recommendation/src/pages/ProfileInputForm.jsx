@@ -1,9 +1,11 @@
 import React, { useState} from 'react';
 import { User, Calendar, Phone, MapPin, Save, Check } from 'lucide-react';
 import axios from 'axios';
+import { useTranslation } from "react-i18next";
 
 
 const ProfileInputForm = ({ initialData, token }) => {
+  const { t, i18n } = useTranslation();
   const [currentStep, setCurrentStep] = useState(1);
   const [errors, setErrors] = useState({});
   const [loading, setLoading] = useState(false);
@@ -99,7 +101,7 @@ const ProfileInputForm = ({ initialData, token }) => {
                 {currentStep > 1 ? <Check size={16} /> : '1'}
               </div>
               <span className="text-sm font-medium text-gray-700">
-                Personal Details
+                {t("Personal Details")}
               </span>
             </div>
             <div className="flex items-center space-x-4">
@@ -113,7 +115,7 @@ const ProfileInputForm = ({ initialData, token }) => {
                 2
               </div>
               <span className="text-sm font-medium text-gray-700">
-                Contact Details
+                {t("Contact Details")}
               </span>
             </div>
           </div>
@@ -135,7 +137,7 @@ const ProfileInputForm = ({ initialData, token }) => {
                   <User className="w-8 h-8 text-blue-500" />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-800">
-                  Personal Information
+                  {t("Personal Information")}
                 </h2>
                 <p className="text-gray-600 mt-2">Tell us about yourself</p>
               </div>
@@ -241,7 +243,7 @@ const ProfileInputForm = ({ initialData, token }) => {
                 onClick={handleNext}
                 className="w-full bg-blue-600 hover:bg-blue-700 text-white font-semibold py-4 rounded-xl transition-colors flex items-center justify-center space-x-2"
               >
-                <span>Next Step</span>
+                <span>{t("Next Step")}</span>
                 <Check className="w-5 h-5" />
               </button>
             </div>
@@ -254,7 +256,7 @@ const ProfileInputForm = ({ initialData, token }) => {
                   <MapPin className="w-8 h-8 text-blue-500" />
                 </div>
                 <h2 className="text-2xl font-bold text-gray-800">
-                  Contact Information
+                  {t("Contact Information")}
                 </h2>
                 <p className="text-gray-600 mt-2">How can we reach you?</p>
               </div>
@@ -372,7 +374,7 @@ const ProfileInputForm = ({ initialData, token }) => {
                   onClick={() => setCurrentStep(1)}
                   className="flex-1 bg-gray-100 hover:bg-gray-200 text-gray-700 font-semibold py-4 rounded-xl transition-colors"
                 >
-                  Previous
+                  {t("Previous")}
                 </button>
                 <button
                   onClick={handleSave}

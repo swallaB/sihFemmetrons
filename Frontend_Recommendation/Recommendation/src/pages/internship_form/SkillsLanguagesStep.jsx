@@ -2,10 +2,20 @@ import React, { useState } from "react";
 import { Brain, Languages, Star, X } from "lucide-react";
 
 const skillOptions = [
-  "JavaScript", "Python", "Java", "React", "Node.js", "HTML/CSS", "SQL", "Git",
-  "Project Management", "Communication", "Leadership", "Problem Solving",
-  "Data Analysis", "Marketing", "Design", "Writing", "Photography", "Video Editing"
+  "Agriculture Basics",
+  "Chemistry",
+  "Communication",
+  "Data Analysis",
+  "Editing",
+  "Electrical Maintenance",
+  "Excel",
+  "Networking",
+  "Python",
+  "Research Skills",
+  "Sales Skills",
+  "Writing"
 ];
+
 
 const languageOptions = ["English", "Hindi", "Marathi", "Gujarati", "Tamil", "Punjabi"];
 

@@ -7,20 +7,27 @@ const PreferencesStep = ({
   onUpdate,
   onBadgeEarned
 }) => {
-  const sectors = [
-    { name: 'Technology', icon: '💻', color: 'blue' },
-    { name: 'Healthcare', icon: '🏥', color: 'red' },
-    { name: 'Finance', icon: '💰', color: 'green' },
-    { name: 'Education', icon: '📚', color: 'purple' },
-    { name: 'Marketing', icon: '📈', color: 'pink' },
-    { name: 'Design', icon: '🎨', color: 'indigo' },
-    { name: 'Consulting', icon: '🤝', color: 'yellow' },
-    { name: 'Non-profit', icon: '❤️', color: 'teal' },
-    { name: 'Manufacturing', icon: '🏭', color: 'gray' },
-    { name: 'Media & Entertainment', icon: '🎬', color: 'orange' },
-    { name: 'Retail', icon: '🛍️', color: 'cyan' },
-    { name: 'Other', icon: '🌟', color: 'violet' }
-  ];
+const sectors = [
+  { name: 'Aviation & Defence', icon: '✈️', color: 'blue' },
+  { name: 'Metals & Mining', icon: '⛏️', color: 'gray' },
+  { name: 'Retail & Consumer Durables', icon: '🛍️', color: 'cyan' },
+  { name: 'Pharmaceutical', icon: '💊', color: 'red' },
+  { name: 'Telecom', icon: '📡', color: 'purple' },
+  { name: 'Chemical', icon: '⚗️', color: 'pink' },
+  { name: 'FMCG', icon: '🥫', color: 'orange' },
+  { name: 'Travel & Hospitality', icon: '🏨', color: 'teal' },
+  { name: 'Media, Entertainment & Education', icon: '🎬', color: 'yellow' },
+  { name: 'Oil, Gas & Energy', icon: '🛢️', color: 'indigo' },
+  { name: 'Agriculture & Allied', icon: '🌾', color: 'green' },
+  { name: 'Infrastructure & Construction', icon: '🏗️', color: 'gray' },
+  { name: 'Automotive', icon: '🚗', color: 'blue' },
+  { name: 'Healthcare', icon: '🏥', color: 'red' },
+  { name: 'Consulting Services', icon: '🤝', color: 'yellow' },
+  { name: 'IT & Software Development', icon: '💻', color: 'purple' },
+  { name: 'Banking & Financial Services', icon: '💰', color: 'green' }
+];
+
+
 
   const modes = [
     { value: 'remote', label: 'Remote', icon: '🏠', description: 'Work from anywhere' },

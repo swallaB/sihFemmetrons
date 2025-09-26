@@ -131,7 +131,7 @@ const Navbar = () => {
 
           {/* Logout */}
           <button className="flex items-center gap-2 px-4 py-2 bg-gradient-to-r from-blue-600 to-purple-600 text-white rounded-xl font-semibold hover:from-blue-700 hover:to-purple-700 transition">
-            🚪 <span className="hidden sm:inline">{t("log_out")}</span>
+            🚪 <span className="hidden sm:inline">{t("log out")}</span>
           </button>
         </div>
       </div>

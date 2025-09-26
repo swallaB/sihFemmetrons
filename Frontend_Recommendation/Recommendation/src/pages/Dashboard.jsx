@@ -3,8 +3,11 @@ import React, { useEffect, useState } from 'react';
 import { useNavigate } from 'react-router-dom';
 import { User, Calendar, Phone, MapPin, Edit3, Briefcase } from 'lucide-react';
 import axios from 'axios';
+import { useTranslation } from "react-i18next";
+
 
 const Dashboard = () => {
+  const { t, i18n } = useTranslation(); 
   const navigate = useNavigate();
   const [profile, setProfile] = useState(null);
   const [recommendations, setRecommendations] = useState([]);
@@ -75,7 +78,7 @@ if (!profile) return null;
       <div className="max-w-6xl mx-auto">
         {/* Header */}
         <div className="text-center mb-8">
-          <h1 className="text-4xl font-bold text-gray-800 mb-4">Profile Dashboard</h1>
+          <h1 className="text-4xl font-bold text-gray-800 mb-4">{t("Profile Dashboard")}</h1>
           <p className="text-gray-600 text-lg">Your details & recommendations at a glance</p>
         </div>
 
@@ -100,7 +103,7 @@ if (!profile) return null;
                 onClick={onEdit}
                 className="bg-white/20 hover:bg-white/30 rounded-xl p-2 transition"
               >
-                <Edit3 className="w-5 h-5" />
+                Edit<Edit3 className="w-5 h-5" />
               </button>
             </div>
 
@@ -109,7 +112,7 @@ if (!profile) return null;
               {/* Personal Information */}
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                  <User className="w-5 h-5 text-blue-500 mr-2" /> Personal Information
+                  <User className="w-5 h-5 text-blue-500 mr-2" /> {t("Personal Information")}
                 </h3>
                 <p><strong>Full Name:</strong> {profile.firstName} {profile.lastName}</p>
                 <p><strong>DOB:</strong> {formatDate(profile.dateOfBirth)}</p>
@@ -119,7 +122,7 @@ if (!profile) return null;
               {/* Contact Information */}
               <div>
                 <h3 className="text-lg font-semibold text-gray-800 mb-4 flex items-center">
-                  <Phone className="w-5 h-5 text-blue-500 mr-2" /> Contact Information
+                  <Phone className="w-5 h-5 text-blue-500 mr-2" />{t("Contact Information")}
                 </h3>
                 <p><strong>Phone:</strong> {profile.phone || 'Not provided'}</p>
                 <p><strong>Address:</strong> {getFullAddress()}</p>
@@ -131,13 +134,13 @@ if (!profile) return null;
           <div className="bg-white rounded-3xl shadow-2xl p-6">
             <div className="flex items-center justify-between mb-4">
               <h2 className="text-2xl font-bold text-gray-800 flex items-center">
-                <Briefcase className="w-6 h-6 text-indigo-600 mr-2" /> Recommendations
+                <Briefcase className="w-6 h-6 text-indigo-600 mr-2" /> {t("Recommendations")}
               </h2>
               <button
                 onClick={onUpdateRecommendations}
                 className="bg-indigo-600 hover:bg-indigo-700 text-white px-4 py-2 rounded-lg"
               >
-                Update
+                {t("Update")}
               </button>
             </div>
 
