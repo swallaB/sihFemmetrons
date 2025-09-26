@@ -1,51 +1,72 @@
-import React, { useEffect, useState } from "react";
+import React, { useState, useEffect } from "react";
 import { useNavigate } from "react-router-dom";
 import Form from "./internship_form/form";
 import RecommendationPage from "./recomm_page";
 
 const RecommCheck = () => {
+  const [isLoading, setIsLoading] = useState(true);
+  const [formCompleted, setFormCompleted] = useState(false);
   const navigate = useNavigate();
-  const [isProfileComplete, setIsProfileComplete] = useState(null); // null = checking state
-
-  useEffect(() => {
-    const savedData = localStorage.getItem("internship-form-data");
-    const savedCompleted = localStorage.getItem("internship-form-completed");
-
-    if (savedData && savedCompleted) {
-      try {
-        const formData = JSON.parse(savedData);
-        const completedSteps = JSON.parse(savedCompleted);
-
-        // check if all steps are marked as completed
-        const allStepsCompleted = completedSteps.every(step => step === true);
-
-        // check mandatory fields
-        const hasEducation = formData.education?.some(e => e.degree && e.institution);
-        const hasSkillsOrLanguages = (formData.skills?.length > 0 || formData.languages?.length > 0);
-        const hasPreferences = formData.sectorOfInterest?.length > 0 && formData.preferences?.mode;
-        const hasCV = !!formData.cv;
-
-        if (allStepsCompleted && hasEducation && hasSkillsOrLanguages && hasPreferences && hasCV) {
-          setIsProfileComplete(true);
-          return;
-        }
-      } catch (e) {
-        console.error("Profile check failed:", e);
+useEffect(() => {
+  const checkFormStatus = async () => {
+    try {
+      const token = localStorage.getItem("token");
+      if (!token) {
+        navigate("/login");
+        return;
       }
+
+      const res = await axios.get("http://localhost:5000/api/users/profile", {
+        headers: { Authorization: `Bearer ${token}` },
+      });
+
+      const profile = res.data; // ✅ your backend saves under candidateProfile
+     console.log("✅ CandidateProfile from backend:", profile);
+      if (!profile) {
+        setFormCompleted(false);
+        setIsLoading(false);
+        return;
+      }
+
+      // ✅ Match backend validation
+      const isComplete =
+        profile.education?.length > 0 &&
+        profile.skills?.length > 0 &&
+        profile.languages?.length > 0 &&
+        profile.sectorOfInterest?.length > 0 &&
+        profile.preferences?.duration &&
+        profile.preferences?.mode &&
+        profile.preferences?.locationPref &&
+        profile.cv?.filename;
+
+         console.log("✅ Completion check:", {
+        education: profile.education?.length > 0,
+        skills: profile.skills?.length > 0,
+        languages: profile.languages?.length > 0,
+        sectorOfInterest: profile.sectorOfInterest?.length > 0,
+        experience: !!profile.experience,
+        duration: !!profile.preferences?.duration,
+        mode: !!profile.preferences?.mode,
+        locationPref: !!profile.preferences?.locationPref,
+        cv: !!profile.cv?.filename,
+      });
+
+      setFormCompleted(isComplete);
+    } catch (err) {
+      console.error(err);
+      navigate("/login");
+    } finally {
+      setIsLoading(false);
     }
+  };
 
-    setIsProfileComplete(false);
-  }, []);
+  checkFormStatus();
+}, [navigate]);
 
-  if (isProfileComplete === null) {
-    return (
-      <div className="flex items-center justify-center h-screen">
-        <p className="text-gray-600">Checking profile...</p>
-      </div>
-    );
-  }
 
-  return isProfileComplete ? <RecommendationPage /> : <Form />;
+  if (isLoading) return <div>Loading...</div>;
+
+  return formCompleted ? <RecommendationPage /> : <Form />;
 };
 
 export default RecommCheck;
