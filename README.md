@@ -16,6 +16,8 @@ Instead of showing a long list, the system suggests **3–5 most relevant intern
 ## 🖼️ Project Preview  
 
 ![Intern Match Website Preview](./WhatsApp%20Image%202025-11-04%20at%2005.24.07_a5c2b234.jpg)  
+![Intern Match Website Preview](rec_page.jpg)  
+
 *Clean and engaging UI designed for easy navigation and gamified input collection.*
 
 
@@ -28,8 +30,7 @@ Instead of showing a long list, the system suggests **3–5 most relevant intern
   - Sector/domain interests  
   - Location preferences  
 -  **Top internship recommendations displayed as cards** (title, company, location, details)  
--  **Option to browse all available internships**  
--  **Mobile-friendly and lightweight design**  
+-  **Option to browse all available internships**   
 -  **Intuitive UI** designed for users with low digital literacy
 
 ---
@@ -57,7 +58,7 @@ This project follows a **content-based filtering** approach:
 
 | Layer | Technologies |
 |-------|---------------|
-| **Frontend** | React.js, HTML, CSS, JavaScript |
+| **Frontend** | React.js, Node.js, JavaScript |
 | **Backend** | Python (Flask) |
 | **Database** | MongoDB |
 | **Libraries Used** | scikit-learn, pandas, numpy, Flask |
