@@ -1,4 +1,4 @@
-# ntern Match
+# Intern Match
 
 ###  AI-Powered Internship Suggestion Tool for the PM Internship Scheme
 
@@ -15,7 +15,7 @@ Instead of showing a long list, the system suggests **3–5 most relevant intern
 ---
 ## 🖼️ Project Preview  
 
-![Intern Match Website Preview](./WhatsApp Image 2025-11-04 at 05.24.07_a5c2b234.jpg)  
+![Intern Match Website Preview](./WhatsApp%20Image%202025-11-04%20at%2005.24.07_a5c2b234.jpg)  
 *Clean and engaging UI designed for easy navigation and gamified input collection.*
 
 
@@ -33,6 +33,7 @@ Instead of showing a long list, the system suggests **3–5 most relevant intern
 -  **Intuitive UI** designed for users with low digital literacy
 
 ---
+
 
 ## 🧠 Approach
 
