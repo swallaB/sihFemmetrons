@@ -16,7 +16,7 @@ Instead of showing a long list, the system suggests **3–5 most relevant intern
 ## 🖼️ Project Preview  
 
 ![Intern Match Website Preview](./WhatsApp%20Image%202025-11-04%20at%2005.24.07_a5c2b234.jpg)  
-![Intern Match Website Preview](rec_page.jpg)  
+![Intern Match Website Preview](rec_page.png)  
 
 *Clean and engaging UI designed for easy navigation and gamified input collection.*
 
